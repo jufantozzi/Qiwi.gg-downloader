@@ -1,0 +1,15 @@
+{
+    "name": "trax-downloader",
+    "version": "1.0.0",
+    "description": "Auto downloader for traxDB ",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "juliano.fantozzi@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+        "puppeteer": "^21.4.0",
+        "puppeteer-extra-plugin-stealth": "^2.11.2"
+    }
+}
