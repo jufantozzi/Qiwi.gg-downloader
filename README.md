@@ -1,6 +1,6 @@
-# TraxDB² Downloader
+# Qiwi.gg Downloader
 
-TraxDB² Downloader is a utility tool that facilitates downloading all files in a folder, hosted by `qiwi.gg`
+Qiwi.gg Downloader is a utility tool that facilitates downloading all files in a folder, hosted by `qiwi.gg`
 
 ## How it works
 
