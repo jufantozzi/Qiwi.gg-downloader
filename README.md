@@ -4,7 +4,7 @@ Qiwi.gg Downloader is a utility tool that facilitates downloading all files in a
 
 ## How it works
 
-First, the JS script gathers all the final download links of the provided release. Next, it creates a directory with the folder name and a text file with all the links, while also copying the bash script to the newly created directory. The bash script takes no arguments and expects the created `links.txt` file in the same directory, downloading all links found in the file. Finally, it cleans up the unwanted files (`links.txt` and downloader script iself), leaving a clean directory with downloaded files only.
+First, the JS script gathers all the final download links of the provided qiwi folder. Next, it creates a directory with the folder name and a text file with all the links, while also copying the bash script to the newly created directory. The bash script takes no arguments and expects the created `links.txt` file in the same directory, downloading all links found in the file. Finally, it cleans up the unwanted files (`links.txt` and downloader script iself), leaving a clean directory with downloaded files only.
 
 ## Setup
 
