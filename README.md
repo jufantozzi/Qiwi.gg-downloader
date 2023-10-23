@@ -25,7 +25,7 @@ Feel free to open a PR adding a PowerShell version of the download script.
 Once variables are setup, run:
 
 ```
-$ npm start <release-date> <qiwi.gg folder path>
+$ npm start <folder name> <qiwi.gg folder url>
 Created links file: C:\Music\research\2023\2023-10-11\links.txt
 Copied download script file to: C:\Music\research\2023\2023-10-11
 ```
