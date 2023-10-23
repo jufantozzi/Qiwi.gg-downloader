@@ -7,7 +7,7 @@ const parallelDownloads = 9
 const downloadBasePath = 'C:\\Music\\research\\2023\\'
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
+    return async resolve => setTimeout(resolve, ms);
 }
 
 function lookup(obj, k) {
