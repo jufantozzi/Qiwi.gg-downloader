@@ -134,21 +134,23 @@ const getDownloadLinkByScriptTag = async link => {
         if (tag.content == null) {
             return;
         }
-        if (tag.content.includes('fileExtension')) {
-            // Remove 26 initial characters
-            const step1 = tag.content.substring(25);
+        if (!tag.content.includes('fileExtension')) {
+            return;
+        }
+        // Remove 26 initial characters
+        const step1 = tag.content.substring(25);
 
-            // Remove the last character
-            const step2 = step1.slice(0, -1);
+        // Remove the last character
+        const step2 = step1.slice(0, -1);
 
-            // Remove trailing quotes if present
-            const step3 = step2.replace(/"$/, '').replace(/^"/, '');
+        // Remove trailing quotes if present
+        const step3 = step2.replace(/"$/, '').replace(/^"/, '');
 
-            const step4 = step3.replace(/\\"/g, '"');
+        const step4 = step3.replace(/\\"/g, '"');
 
-            const step5 = step4.slice(0, -4);
+        const step5 = step4.slice(0, -4);
 
-            // Parse as JSON
+        // Parse as JSON
 
         let link = "https://spyderrock.com/";
         try {
