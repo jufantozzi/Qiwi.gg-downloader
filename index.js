@@ -169,7 +169,7 @@ async function traxLinkGetter() {
     }
     const release = process.argv[2]
     const link = process.argv[3]
-    downloadBasePath = process.argv[4] || 'C:\\Music'
+    downloadBasePath = process.argv[4] || process.platform === "win32" ? 'C:\\Music' : "~/Music"
 
     const downloadPath = downloadBasePath + release;
 
