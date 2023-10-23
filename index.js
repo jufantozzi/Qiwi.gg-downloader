@@ -11,20 +11,20 @@ function sleep(ms) {
 }
 
 function lookup(obj, k) {
-    for (var key in obj) {
-        var value = obj[key]
+    for (let key in obj) {
+        const value = obj[key]
 
         if (k == key) {
             return [k, value]
         }
 
         if (typeof (value) === "object" && !Array.isArray(value)) {
-            var y = lookup(value, k)
+            const y = lookup(value, k)
             if (y && y[0] == k) return y
         }
         if (Array.isArray(value)) {
-            for (var i = 0; i < value.length; ++i) {
-                var x = lookup(value[i], k)
+            for (let i = 0; i < value.length; ++i) {
+                const x = lookup(value[i], k)
                 if (x && x[0] == k) return x
             }
         }
@@ -34,7 +34,7 @@ function lookup(obj, k) {
 }
 
 // not being currently used, proven to be inconsistent
-getDownloadLinkByClicks = async (link) => {
+const getDownloadLinkByClicks = async (link) => {
     const browser = await puppeteer.launch({
         product: 'chrome',
         headless: true,
@@ -104,7 +104,7 @@ getDownloadLinkByClicks = async (link) => {
     return downloadLink
 }
 
-getDownloadLinkByScriptTag = async (link) => {
+const getDownloadLinkByScriptTag = async link => {
     const browser = await puppeteer.launch({
         product: 'chrome',
         headless: "new",
@@ -130,7 +130,7 @@ getDownloadLinkByScriptTag = async (link) => {
     });
 
 
-    for (const tag of scriptTags) {
+    for (let tag of scriptTags) {
         if (tag.content == null) {
             return
         }
@@ -150,15 +150,14 @@ getDownloadLinkByScriptTag = async (link) => {
 
             // Parse as JSON
 
-            link = "https://spyderrock.com/"
-            try {
-                const parsedJSON = JSON.parse(step5)
-                link = link + lookup(parsedJSON, "slug")[1] + '.flac'
-                await browser.close()
-                return link + ',' + fileName
-            } catch (error) {
-                console.error('Error parsing JSON:', error)
-            }
+        let link = "https://spyderrock.com/";
+        try {
+            const parsedJSON = JSON.parse(step5);
+            link = link + lookup(parsedJSON, "slug")[1] + '.flac';
+            await browser.close();
+            return link + ',' + fileName;
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
         }
     }
 }
@@ -184,19 +183,17 @@ async function traxLinkGetter() {
     await page.goto(link)
     await sleep(1500)
 
-    unlockDownloadHandle = await page.$$(".DownloadButton_DownloadButton__Co0Pm"),
+    const unlockDownloadHandle = await page.$$(".DownloadButton_DownloadButton__Co0Pm")
 
-        links = unlockDownloadHandle.map(async (elementHandle) => {
-            const link = await page.evaluate(element => element.getAttribute('href'), elementHandle)
-            return link
-        })
+    let links = unlockDownloadHandle
+        .map(async elementHandle => await page.evaluate(element => element.getAttribute('href'), elementHandle));
 
-    preDownloadLinks = await Promise.all(links)
+    const preDownloadLinks = await Promise.all(links);
 
-    downloadLinksPromises = []
-    downloadLinks = []
+    let downloadLinksPromises = [];
+    let downloadLinks = [];
 
-    curr = 0
+    let curr = 0;
     for (let i = 0; i < preDownloadLinks.length; i++) {
         downloadLinksPromises.push(getDownloadLinkByScriptTag(preDownloadLinks[i]))
         curr++
