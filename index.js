@@ -10,7 +10,7 @@ function sleep(ms) {
     return async resolve => setTimeout(resolve, ms);
 }
 
-function lookup(obj, k) {
+const lookup = (obj, k) => {
     for (let key in obj) {
         const value = obj[key];
 
