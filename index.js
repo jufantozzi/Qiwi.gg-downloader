@@ -138,17 +138,14 @@ const getDownloadLinkByScriptTag = async link => {
             return;
         }
         // Remove 26 initial characters
-        const step1 = tag.content.substring(25);
-
+        tag.content.substring(25)
         // Remove the last character
-        const step2 = step1.slice(0, -1);
-
-        // Remove trailing quotes if present
-        const step3 = step2.replace(/"$/, '').replace(/^"/, '');
-
-        const step4 = step3.replace(/\\"/g, '"');
-
-        const step5 = step4.slice(0, -4);
+            .slice(0, -1)
+            // Remove trailing quotes if present
+            .replace(/"$/, '')
+            .replace(/^"/, '')
+            .replace(/\\"/g, '"')
+            .slice(0, -4);
 
         // Parse as JSON
 
