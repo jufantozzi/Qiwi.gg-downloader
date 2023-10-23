@@ -175,7 +175,7 @@ async function traxLinkGetter() {
 
     const browser = await puppeteer.launch({
         product: 'chrome',
-        headless: false, // or false if you want to see the browser
+        headless: false, // or true if you don't want to see the browser
     });
 
     let page = await browser.newPage()
