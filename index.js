@@ -139,7 +139,7 @@ const getDownloadLinkByScriptTag = async link => {
         }
         // Remove 26 initial characters
         tag.content.substring(25)
-        // Remove the last character
+            // Remove the last character
             .slice(0, -1)
             // Remove trailing quotes if present
             .replace(/"$/, '')
@@ -153,10 +153,11 @@ const getDownloadLinkByScriptTag = async link => {
         try {
             const parsedJSON = JSON.parse(step5);
             link = link + lookup(parsedJSON, "slug")[1] + '.flac';
-            await browser.close();
-            return link + ',' + fileName;
         } catch (error) {
             console.error('Error parsing JSON:', error);
+        } finally {
+            await browser.close();
+            return link + ',' + fileName;
         }
     }
 };
