@@ -4,7 +4,7 @@ const fs = require('fs')
 // Uncomment the following line if increasing parallel downloads is desired
 // require('events').EventEmitter.defaultMaxListeners = 15;
 const parallelDownloads = 9
-const downloadBasePath = 'C:\\Music\\research\\2023\\'
+let downloadBasePath;
 
 function sleep(ms) {
     return async resolve => setTimeout(resolve, ms);
@@ -163,12 +163,13 @@ const getDownloadLinkByScriptTag = async link => {
 }
 
 async function traxLinkGetter() {
-    if (process.argv.length !== 4) {
-        console.log("Usage: <download link> <release date>")
+    if (process.argv.length < 4 || process.argv.length > 5) {
+        console.log("Usage: <download link> <release date> [<download folder>]")
         return
     }
     const release = process.argv[2]
     const link = process.argv[3]
+    downloadBasePath = process.argv[4] || 'C:\\Music'
 
     const downloadPath = downloadBasePath + release;
 
