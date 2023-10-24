@@ -164,7 +164,7 @@ const getDownloadLinkByScriptTag = async link => {
 
 async function traxLinkGetter() {
     if (process.argv.length < 4 || process.argv.length > 5) {
-        console.log("Usage: <download link> <release date> [<download folder>]");
+        console.log("Usage: <release date> <download link> [<download folder>]");
         return;
     }
     const release = process.argv[2];
