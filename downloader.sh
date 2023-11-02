@@ -16,12 +16,8 @@ download_link() {
   wget "$link" -O "$filename"
 }
 
-# Loop through each line in the file, split the link and filename, and download in parallel
-while read -r line; do
-  # Use 'awk' to split the line into link and filename
-  link=$(echo "$line" | awk -F',' '{print $1}')
-  filename=$(echo "$line" | awk -F',' '{print $2}')
-  
+# Loop through each line in the file and download in parallel
+while IFS=',' read -r link filename; do
   # Download the file with the specified filename
   download_link "$link" "$filename" &
 done < "$input_file"
