@@ -6,113 +6,15 @@ const fs = require('fs')
 const parallelDownloads = 9
 const downloadBasePath = 'C:\\Music\\research\\2023\\'
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-function lookup(obj, k) {
-    for (var key in obj) {
-        var value = obj[key]
-
-        if (k == key) {
-            return [k, value]
-        }
-
-        if (typeof (value) === "object" && !Array.isArray(value)) {
-            var y = lookup(value, k)
-            if (y && y[0] == k) return y
-        }
-        if (Array.isArray(value)) {
-            for (var i = 0; i < value.length; ++i) {
-                var x = lookup(value[i], k)
-                if (x && x[0] == k) return x
-            }
-        }
-    }
-
-    return null
-}
-
-// not being currently used, proven to be inconsistent
-getDownloadLinkByClicks = async (link) => {
-    const browser = await puppeteer.launch({
-        product: 'chrome',
-        headless: true,
-    });
-    await sleep(500)
-    let page = await browser.newPage()
-    await page.goto(link)
-    await sleep(2000)
-
-    // first click opens ad page
-    let errNoClass = false
-    try {
-        // lol
-        await page.click(".DownloadButton_ButtonSoScraperCanTakeThisName__gVd3C")
-    } catch (error) {
-        console.log("with button no class")
-        errNoClass = true
-    }
-
-    let unlockButtonHandler = []
-
-    if (errNoClass) {
-        for (let i = 15; i < 40; i++) {
-
-
-            d = await page.$$(`body > div:nth-child(${i})`)
-
-            if (d.length !== 0) {
-                unlockButtonHandler.push(d[0])
-                try {
-                    await d[0].click()
-
-                } catch (error) {
-                    console.log("not clickable")
-                }
-            }
-        }
-    }
-
-
-    await sleep(3000)
-
-    // Closing ad page
-    let pages = await browser.pages()
-
-    let adPage = pages[2]
-    await adPage.close()
-    await sleep(5000)
-
-    // Unlocks download button
-    if (errNoClass) {
-        for (let el of unlockButtonHandler) {
-            el.click()
-        }
-    } else {
-        await page.click(".DownloadButton_ButtonSoScraperCanTakeThisName__gVd3C")
-    }
-
-    // Find and return download link
-    await sleep(2500)
-
-    downloadHandle = await page.$(".DownloadButton_DownloadButton__qwe2g ")
-    const downloadLink = await page.evaluate(element => element.getAttribute('href'), downloadHandle)
-
-    await browser.close()
-
-    return downloadLink
-}
-
 getDownloadLinkByScriptTag = async (link) => {
     const browser = await puppeteer.launch({
         product: 'chrome',
-        headless: "new",
+        headless: 'new',
     });
-    await sleep(500)
     let page = await browser.newPage()
-    await page.goto(link)
-    await sleep(1000)
+    await page.goto(link, {
+        timeout: 60000
+    })
 
 
     // find file name
@@ -131,36 +33,32 @@ getDownloadLinkByScriptTag = async (link) => {
 
 
     for (const tag of scriptTags) {
-        if (tag.content == null) {
-            return
+        if (tag.content === null) {
+            continue
         }
-        if (tag.content.includes('fileExtension')) {
-            // Remove 26 initial characters
-            const step1 = tag.content.substring(25)
-
-            // Remove the last character
-            const step2 = step1.slice(0, -1)
-
-            // Remove trailing quotes if present
-            const step3 = step2.replace(/"$/, '').replace(/^"/, '')
-
-            const step4 = step3.replace(/\\"/g, '"')
-
-            const step5 = step4.slice(0, -4)
-
-            // Parse as JSON
-
-            link = "https://spyderrock.com/"
-            try {
-                const parsedJSON = JSON.parse(step5)
-                link = link + lookup(parsedJSON, "slug")[1] + '.flac'
-                await browser.close()
-                return link + ',' + fileName
-            } catch (error) {
-                console.error('Error parsing JSON:', error)
-            }
+        if (!tag.content.includes('fileExtension')) {
+            continue
         }
+
+        // Find slug value
+        // Sanitize string
+        const sanitazedTagContent = tag.content.replace(/\\/g, '')
+        // Find slug field starting index
+        const slugIndex = sanitazedTagContent.indexOf('slug')
+        const slugEndIndex = sanitazedTagContent.indexOf('"', slugIndex)
+        // Find slug value indexes
+        const slugValueStart = sanitazedTagContent.indexOf('"', slugEndIndex + 1)
+        const slugValueEnd = sanitazedTagContent.indexOf('"', slugValueStart + 1);
+        const slug = sanitazedTagContent.slice(slugValueStart + 1, slugValueEnd);
+
+        const link = "https://spyderrock.com/" + slug + '.flac'
+        
+        await browser.close()
+        console.log(link + ',' + fileName)
+        return link + ',' + fileName
     }
+
+    await browser.close()
 }
 
 async function traxLinkGetter() {
@@ -182,7 +80,6 @@ async function traxLinkGetter() {
 
 
     await page.goto(link)
-    await sleep(1500)
 
     unlockDownloadHandle = await page.$$(".DownloadButton_DownloadButton__Co0Pm"),
 
@@ -254,3 +151,4 @@ async function traxLinkGetter() {
 }
 
 traxLinkGetter()
+// getDownloadLinkByScriptTag("https://qiwi.gg/file/wrqu0079-Alfio-Meganoidi")
