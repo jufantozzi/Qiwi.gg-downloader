@@ -9,6 +9,8 @@
     "author": "juliano.fantozzi@gmail.com",
     "license": "ISC",
     "dependencies": {
+        "fluent-ffmpeg": "^2.1.2",
+        "progress": "^2.0.3",
         "puppeteer": "^21.4.0",
         "puppeteer-extra-plugin-stealth": "^2.11.2"
     }
