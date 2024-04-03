@@ -7,8 +7,11 @@ const ProgressBar = require('progress')
 
 // Uncomment the following line if increasing parallel downloads is desired
 // require('events').EventEmitter.defaultMaxListeners = 15
-const parallelDownloads = 9
-const downloadBasePath = 'C:\\Music\\research\\2023\\'
+const parallelDownloads = 6
+const downloadBasePath = 'C:\\Music\\research\\2024\\'
+// If a file does not exist or fails to download for any reason, set this to true
+const problematicFile = false
+const problematicFileName = "Alejo - Code"
 let downloadPath
 
 getDownloadLinkByScriptTag = async (link) => {
@@ -23,6 +26,16 @@ getDownloadLinkByScriptTag = async (link) => {
     // find file name
     fileNameHandle = await page.$(".page_TextHeading__VsM7r")
     const fileName = await page.evaluate(element => element.textContent, fileNameHandle)
+    
+    if (problematicFile) {
+        if (fileName.includes(problematicFileName)) {
+            console.log("found, returning")
+            console.log("found, returning")
+            console.log("found, returning")
+            console.log("found, returning")
+            return null
+        }
+    }
 
     // Use page.$$eval to get all script tags
     const scriptTags = await page.$$eval('script', (elements) => {
@@ -58,8 +71,8 @@ getDownloadLinkByScriptTag = async (link) => {
         const link = "https://spyderrock.com/" + slug + '.flac'
 
         await browser.close()
-        console.log(link + ',' + fileName)
-        return link + ',' + fileName
+        console.log(link + ';;' + fileName)
+        return link + ';;' + fileName
     }
 
     await browser.close()
@@ -68,7 +81,11 @@ getDownloadLinkByScriptTag = async (link) => {
 async function ParallelDownloadFiles(links) {
     console.log("Downloading files")
     const downloadPromises = links.map(link => {
-        const [fileUrl, fileName] = link.split(',')
+        if (link === null ) {
+            return null
+        }
+        const [fileUrl, fileName] = link.split(';;')
+        
         return download(fileUrl, fileName, downloadPath + '\\' + fileName)
     })
 
@@ -220,7 +237,12 @@ async function traxLinkGetter() {
 
     // writeDownloadLinks(downloadLinks)
     let downloadPromises = await ParallelDownloadFiles(downloadLinks)
-    await Promise.all(downloadPromises)
+    
+    try {
+        await Promise.all(downloadPromises)
+    } catch (error) {
+        console.log("failed downloading files", error)
+    }
     console.log("Download completed, converting files")
 
     const files = getFiles(downloadPath)
