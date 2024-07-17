@@ -7,7 +7,7 @@ Qiwi.gg Downloader is a utility tool that facilitates downloading all files in a
 ## How it works
 
 The script will:
-1. Constructs all final download urls of the provided qiwi folder through inspecting the html elements;
+1. Construct all final download urls of the provided qiwi folder through inspecting the html elements;
 2. Next, it creates a directory with the provided folder name and concurrently downloads all files
 3. Finally, it converts all downloaded files from flac to mp3.
 
