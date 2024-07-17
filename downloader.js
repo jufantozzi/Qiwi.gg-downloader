@@ -10,8 +10,8 @@ const ProgressBar = require('progress')
 const parallelDownloads = 6
 const downloadBasePath = 'C:\\Music\\research\\2024\\'
 // If a file does not exist or fails to download for any reason, set this to true
-const problematicFile = false
-const problematicFileName = "Alejo - Code"
+const problematicFile = true
+const problematicFileName = "De Yan - Aomame"
 let downloadPath
 
 getDownloadLinkByScriptTag = async (link) => {
@@ -120,7 +120,7 @@ async function download(fileUrl, fileName, downloadPath) {
                     resolve()
                 })
             } else {
-                reject(`Failed to download file: Status code ${response.statusCode}`)
+                reject(`Failed to download file "${fileName}: Status code ${response.statusCode}`)
             }
         })
 
