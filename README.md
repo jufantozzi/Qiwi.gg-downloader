@@ -1,7 +1,5 @@
 # Qiwi.gg Downloader - TraxDB Downloader + mp3 converter
 
-This branch download all .flac files from the js code of traxDB releases and convert them to mp3 at 320KBPs 
-
 Qiwi.gg Downloader is a utility tool that facilitates downloading all files in a folder, hosted by `qiwi.gg`
 
 ## How it works
@@ -9,7 +7,7 @@ Qiwi.gg Downloader is a utility tool that facilitates downloading all files in a
 The script will:
 1. Construct all final download urls of the provided qiwi folder through inspecting the html elements;
 2. Next, it creates a directory with the provided folder name and concurrently downloads all files
-3. Finally, it converts all downloaded files from flac to mp3.
+3. Finally, it converts all downloaded files from FLAC to MP3 at 320KBPs.
 
 ## Setup
 
