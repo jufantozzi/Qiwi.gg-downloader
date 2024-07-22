@@ -8,7 +8,8 @@ const ProgressBar = require('progress')
 // Uncomment the following line if increasing parallel downloads is desired
 // require('events').EventEmitter.defaultMaxListeners = 15
 const parallelDownloads = 6
-const downloadBasePath = 'C:\\Music\\research\\2024\\'
+const downloadBasePath = '/Users/julianofantozzi/Music/2024'
+const fileSeparator = '/'
 // If a file does not exist or fails to download for any reason, set this to true
 const problematicFile = true
 const problematicFileName = "De Yan - Aomame"
@@ -86,7 +87,7 @@ async function ParallelDownloadFiles(links) {
         }
         const [fileUrl, fileName] = link.split(';;')
         
-        return download(fileUrl, fileName, downloadPath + '\\' + fileName)
+        return download(fileUrl, fileName, downloadPath + fileSeparator + fileName)
     })
 
     return downloadPromises

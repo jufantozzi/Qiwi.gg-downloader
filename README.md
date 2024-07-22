@@ -9,6 +9,16 @@ The script will:
 2. Next, it creates a directory with the provided folder name and concurrently downloads all files
 3. Finally, it converts all downloaded files from FLAC to MP3 at 320KBPs.
 
+## Requirements
+
+Not a hard requirement, but if step 3 is desired, FFMPEG is required to be installed in your OS. 
+
+To install in macOS:
+
+```sh
+brew install ffmpeg
+```
+
 ## Setup
 
 In `index.js`, update the global variables `parallelDownloads` and `downloadBasePath`:
